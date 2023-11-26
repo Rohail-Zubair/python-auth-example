@@ -1,0 +1,29 @@
+name: CI/CD for Python Application
+
+on:
+  push:
+    branches: [ "main" ]
+  
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+  
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+    
+    - name: Build the Docker Image
+      run: docker build -t rohail0463/python-app:latest .
+
+    - name: Push Docker Image to Dockerhub
+      run: |
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        docker push rohail0463/python-app:latest 
+
+
+
+
